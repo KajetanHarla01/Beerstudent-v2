@@ -24,7 +24,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="16dp"
-        android:hint="@string/post"
+        android:hint="@string/give_an_answer"
         android:textColorHint="@color/primary_variant"
         android:visibility="visible"
         app:boxBackgroundColor="@color/primary_variant_light"
