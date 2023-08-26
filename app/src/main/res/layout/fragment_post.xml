@@ -27,7 +27,7 @@
         android:layout_height="66dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginBottom="16dp"
+
         android:hint="@string/give_an_answer"
         android:textColorHint="@color/primary_variant"
         android:visibility="visible"
@@ -35,14 +35,14 @@
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/primary_variant"
         app:boxCornerRadiusBottomEnd="2dp"
-        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusBottomStart="2dp"
         app:boxCornerRadiusTopEnd="2dp"
         app:boxCornerRadiusTopStart="10dp"
         app:endIconMode="clear_text"
         app:endIconTint="@color/secondary"
         app:hintAnimationEnabled="true"
         app:hintEnabled="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/answer_url"
         app:layout_constraintEnd_toStartOf="@+id/post_send_button"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -55,8 +55,40 @@
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
             android:textAlignment="center"
-            android:textSize="16sp"
+            android:textSize="12sp"
            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/answer_url"
+        android:layout_width="0dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Give an URL to imgur photo (optional)"
+        android:textColorHint="@color/primary_variant"
+        android:visibility="visible"
+        app:boxBackgroundColor="@color/grey"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/primary_variant"
+        app:boxCornerRadiusBottomEnd="2dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="2dp"
+        app:boxCornerRadiusTopStart="2dp"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/post_send_button"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
@@ -69,7 +101,7 @@
         android:backgroundTint="@color/grey"
         android:src="@drawable/ic_send"
         app:tint="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/message"
+        app:layout_constraintBottom_toBottomOf="@+id/answer_url"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/message"
         tools:ignore="ContentDescription" />

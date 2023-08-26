@@ -44,43 +44,46 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:inputType="text"
                 android:textSize="14sp"
                 tools:text="My new room"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/filepath"
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="12dp"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="italic"
-            android:gravity="center"
-            android:background="@drawable/left_side_round"
-            android:backgroundTint="@color/grey"
-            app:layout_constraintBottom_toTopOf="@id/description"
-            app:layout_constraintEnd_toStartOf="@id/file_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/room_name"
-            tools:text="No file selected" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Imgur URL (optional)"
+            android:textColorHint="@color/primary_variant"
+            android:visibility="visible"
+            app:boxBackgroundColor="@color/primary_variant_light"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp"
+            app:boxStrokeColor="@color/primary_variant"
+            app:boxStrokeWidth="1dp"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/secondary"
 
-        <ImageButton
-            android:id="@+id/file_button"
-            android:layout_width="48dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/btn_default"
-            android:backgroundTint="@color/grey"
-            android:src="@drawable/ic_add"
-            app:layout_constraintBottom_toBottomOf="@id/filepath"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/filepath"
-            app:tint="@color/white"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            tools:visibility="visible">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                tools:text="No URL Given" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/description"
@@ -104,7 +107,7 @@
             app:hintEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filepath"
+            app:layout_constraintTop_toBottomOf="@id/room_name"
             tools:visibility="visible">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -116,7 +119,7 @@
                 android:nestedScrollingEnabled="true"
                 android:scrollbars="vertical"
                 android:textAlignment="center"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:text="No description yet!" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,7 +135,7 @@
             app:layout_constraintEnd_toEndOf="@id/room_name"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/dialog_negative_button"
-            app:layout_constraintTop_toBottomOf="@id/description" />
+            app:layout_constraintTop_toBottomOf="@id/filepath" />
 
         <Button
             android:id="@+id/dialog_negative_button"

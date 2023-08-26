@@ -10,7 +10,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        >
 
         <View
             android:id="@+id/decoration"
@@ -52,59 +54,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginHorizontal="16dp"
             android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintEnd_toEndOf="@+id/date"
             app:layout_constraintStart_toStartOf="@+id/decoration"
             app:layout_constraintTop_toBottomOf="@+id/decoration"
             tools:text="My two line\nmessage" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/post"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/footer"
-            >
 
-            <TextView
-                android:id="@+id/forumPostAuthor"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="16sp"
-                android:textStyle="bold|italic"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:layout_marginHorizontal="4dp"
-                android:backgroundTint="@color/grey"
-                android:background="@drawable/roundcorner"
-                tools:text="gajoe@mainForum" />
-
-            <ImageButton
-                android:id="@+id/plusButton"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="4dp"
-                android:backgroundTint="@color/negative"
-                android:background="@drawable/roundcorner"
-                app:srcCompat="@android:drawable/arrow_down_float" />
-
-            <ImageButton
-                android:id="@+id/minusButton"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="4dp"
-                android:adjustViewBounds="true"
-                android:backgroundTint="@color/positive"
-                android:background="@drawable/roundcorner"
-                app:srcCompat="@android:drawable/arrow_up_float" />
-        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

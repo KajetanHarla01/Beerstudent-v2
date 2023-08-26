@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp">
+        android:layout_height="wrap_content">
 
         <View
             android:id="@+id/decoration"
@@ -82,12 +82,47 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:textStyle="italic"
+            android:layout_marginVertical="8dp"
             android:layout_marginHorizontal="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lastMessageLabel"
             tools:text="John" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:padding="4dp"
+            android:id="@+id/footer"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/postAuthor"
+
+            >
+
+            <ImageButton
+                android:id="@+id/plusButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:backgroundTint="@color/negative"
+                android:background="@drawable/roundcorner"
+                app:srcCompat="@android:drawable/arrow_down_float" />
+
+            <ImageButton
+                android:id="@+id/minusButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@color/positive"
+                android:background="@drawable/roundcorner"
+                app:srcCompat="@android:drawable/arrow_up_float" />
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

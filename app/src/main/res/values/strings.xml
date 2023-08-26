@@ -19,7 +19,7 @@
     <string name="wrong_pass_msg">Wrong password</string>
     <string name="try_again_msg">Try again</string>
     <string name="is_private_msg">Is private</string>
-    <string name="last_message_str">Last message:</string>
+    <string name="last_message_str">Last answered by:</string>
     <string name="new_room_str">New post</string>
     <string name="post">Post</string>
     <string name="give_an_answer">Give an answer</string>
