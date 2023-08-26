@@ -56,13 +56,13 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="12dp"
-            android:textColor="@color/primary_variant"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="italic"
             android:gravity="center"
-
-            android:background="@color/grey"
-            app:layout_constraintBottom_toTopOf="@id/dialog_positive_button"
+            android:background="@drawable/left_side_round"
+            android:backgroundTint="@color/grey"
+            app:layout_constraintBottom_toTopOf="@id/description"
             app:layout_constraintEnd_toStartOf="@id/file_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/room_name"
@@ -75,12 +75,50 @@
             android:layout_marginEnd="12dp"
             android:background="@drawable/btn_default"
             android:backgroundTint="@color/grey"
-            android:src="@drawable/ic_send"
+            android:src="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="@id/filepath"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/filepath"
             app:tint="@color/white"
             tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Post Description"
+            android:textColorHint="@color/primary_variant"
+            android:visibility="visible"
+            app:boxBackgroundColor="@color/primary_variant_light"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp"
+            app:boxStrokeColor="@color/primary_variant"
+            app:boxStrokeWidth="1dp"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/secondary"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filepath"
+            tools:visibility="visible">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textLongMessage|textMultiLine"
+                android:lineSpacingExtra="1sp"
+                android:minHeight="30dp"
+                android:nestedScrollingEnabled="true"
+                android:scrollbars="vertical"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                tools:text="No description yet!" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/dialog_positive_button"
@@ -94,7 +132,7 @@
             app:layout_constraintEnd_toEndOf="@id/room_name"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/dialog_negative_button"
-            app:layout_constraintTop_toBottomOf="@id/filepath" />
+            app:layout_constraintTop_toBottomOf="@id/description" />
 
         <Button
             android:id="@+id/dialog_negative_button"
