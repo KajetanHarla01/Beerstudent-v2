@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.khmb.beerstudent.R
 import com.khmb.beerstudent.data.Post
-import com.khmb.beerstudent.databinding.ForumsScreenItemBinding
+import com.khmb.beerstudent.databinding.PostsScreenItemBinding
 import com.khmb.beerstudent.firebase.FirebaseHandler
 import com.khmb.beerstudent.helpers.RVItemClickListener
 import com.khmb.beerstudent.helpers.myCapitalize
@@ -29,7 +29,7 @@ class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener) :
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            ForumsScreenItemBinding.inflate(
+            PostsScreenItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -43,7 +43,7 @@ class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener) :
         holder.setOnClickListener(clickListener)
     }
 
-    inner class ViewHolder(binding: ForumsScreenItemBinding) :
+    inner class ViewHolder(binding: PostsScreenItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         private val postLabel: TextView = binding.forumLabel
