@@ -37,9 +37,9 @@ class PostsFragment : Fragment(), ChildEventListener {
             // Gets the room associated with the clicked item
             val post = posts[position]
             post.postName?.let {
-                val navigateToRoomFragmentAction =
-                    ForumsDirections.actionNavigationForumsToRoomFragment(it)
-                findNavController().navigate(navigateToRoomFragmentAction)
+                val navigateToPostFragmentAction =
+                    PostsFragmentDirections.actionNavigationPostsToPostFragment(it)
+                findNavController().navigate(navigateToPostFragmentAction)
             }
         }
     }

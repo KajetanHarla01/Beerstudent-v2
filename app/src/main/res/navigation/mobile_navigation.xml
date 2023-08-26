@@ -11,7 +11,7 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_navigation_home_to_roomFragment"
+            android:id="@+id/action_navigation_home_to_postFragment"
             app:destination="@id/postFragment" />
     </fragment>
 
@@ -21,7 +21,7 @@
         android:label="@string/title_forums"
         tools:layout="@layout/fragment_posts" >
         <action
-            android:id="@+id/action_navigation_forums_to_roomFragment"
+            android:id="@+id/action_navigation_posts_to_postFragment"
             app:destination="@id/postFragment" />
     </fragment>
     <fragment

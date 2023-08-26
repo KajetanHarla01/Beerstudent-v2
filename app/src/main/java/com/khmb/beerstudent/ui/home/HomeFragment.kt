@@ -32,7 +32,7 @@ class HomeFragment : Fragment(), ChildEventListener {
         override fun onItemClick(position: Int) {
             val post = posts[position]
             post.postName?.let {
-                val navigateToPostFragmentAction = HomeFragmentDirections.actionNavigationHomeToRoomFragment(it)
+                val navigateToPostFragmentAction = HomeFragmentDirections.actionNavigationHomeToPostFragment(it)
                 findNavController().navigate(navigateToPostFragmentAction)
             }
         }
