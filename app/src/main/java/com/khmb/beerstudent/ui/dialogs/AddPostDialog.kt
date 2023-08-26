@@ -38,9 +38,6 @@ class AddPostDialog : DialogFragment() {
         binding.dialogNegativeButton.setOnClickListener {
             dismiss()
         }
-        binding.privateSwitch.setOnCheckedChangeListener { _, state ->
-            binding.roomPassword.visibility = if(state) View.VISIBLE else View.GONE
-        }
         super.onViewCreated(view, savedInstanceState)
     }
 
