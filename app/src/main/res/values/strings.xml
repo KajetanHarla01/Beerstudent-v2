@@ -23,4 +23,5 @@
     <string name="new_room_str">New post</string>
     <string name="post">Post</string>
     <string name="give_an_answer">Give an answer</string>
+    <string name="restrict_access_to_post_with_password">Restrict access to post with password</string>
 </resources>
