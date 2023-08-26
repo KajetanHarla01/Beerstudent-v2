@@ -12,7 +12,5 @@ data class Post(
     var lastComment: String? = null,
     var lastCommentAuthor: String? = null,
     val lastCommentTimestamp:Long? = null,
-    var isPrivate:Boolean? = false,
-    var roomPassword: String? = null
 ): Parcelable
 

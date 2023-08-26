@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/navigation_forums"
-        android:name="com.khmb.beerstudent.ui.forums.ForumsFragment"
+        android:name="com.khmb.beerstudent.ui.forums.PostsFragment"
         android:label="@string/title_forums"
         tools:layout="@layout/fragment_forums" >
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/roomFragment"
-        android:name="com.khmb.beerstudent.ui.forums.RoomFragment"
+        android:name="com.khmb.beerstudent.ui.forums.CommentFragment"
         android:label="RoomFragment"
         tools:layout="@layout/fragment_room">
         <argument

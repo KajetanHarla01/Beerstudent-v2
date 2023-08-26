@@ -1,4 +1,4 @@
-package com.khmb.beerstudent.ui.home
+package com.khmb.beerstudent.ui.forums
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,18 +9,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.khmb.beerstudent.R
 import com.khmb.beerstudent.data.Post
-import com.khmb.beerstudent.databinding.HomeScreenItemBinding
+import com.khmb.beerstudent.databinding.ForumsScreenItemBinding
+import com.khmb.beerstudent.firebase.FirebaseHandler
 import com.khmb.beerstudent.helpers.RVItemClickListener
 import com.khmb.beerstudent.helpers.myCapitalize
 import com.khmb.beerstudent.helpers.toDateString
 
+class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener) :
+    ListAdapter<Post, PostsRecyclerViewAdapter.ViewHolder>(Comparator) {
 
-class HomeRecyclerViewAdapter(
-    private val clickListener: RVItemClickListener
-) : ListAdapter<Post, HomeRecyclerViewAdapter.ViewHolder>(Comparator) {
-
-    object Comparator :
-        DiffUtil.ItemCallback<Post>() {
+    object Comparator : DiffUtil.ItemCallback<Post>() {
         override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
             return oldItem === newItem
         }
@@ -29,36 +27,35 @@ class HomeRecyclerViewAdapter(
             return oldItem.postName == newItem.postName && oldItem.lastCommentTimestamp == newItem.lastCommentTimestamp
         }
     }
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            HomeScreenItemBinding.inflate(
+            ForumsScreenItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
         )
     }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
         holder.setOnClickListener(clickListener)
     }
 
-    inner class ViewHolder(binding: HomeScreenItemBinding) :
+    inner class ViewHolder(binding: ForumsScreenItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val itemLabel: TextView = binding.homeItemLabel
-        private val itemDate: TextView = binding.date
-        private val itemComment: TextView = binding.post
+
+        private val postLabel: TextView = binding.forumLabel
+        private val postOwner: TextView = binding.forumOwner
+        private val postDate: TextView = binding.forumDate
+        private val commentAuthor: TextView = binding.postAuthor
         private val decoration: View = binding.decoration
         private val rootView = binding.root
 
 
         override fun toString(): String {
-            return super.toString() + " '" + (itemLabel.text) + "'"
+            return super.toString() + " '" + (postLabel.text) + "'"
         }
         fun setOnClickListener(listener: RVItemClickListener) {
             rootView.setOnClickListener {
@@ -66,19 +63,21 @@ class HomeRecyclerViewAdapter(
             }
         }
         fun bind(post: Post) {
-            itemLabel.text = post.postName?.myCapitalize()
-            itemDate.text = post.lastCommentTimestamp?.toDateString()
-            itemComment.text = post.lastComment
-
-            // Sets the background color of the decoration view based on whether the user is the owner of the Room
+            postLabel.text = post.postName?.myCapitalize()
+            postOwner.text = "by ${post.ownerEmail}"
+            postDate.text = post.lastCommentTimestamp?.toDateString()
+            commentAuthor.text = post.lastCommentAuthor
+            val isOwner = post.ownerEmail == FirebaseHandler.Authentication.getUserEmail()
             decoration.setBackgroundColor(
                 decoration.context.getColor(
-                    R.color.secondary
+                    if (isOwner)
+                        R.color.secondary
+                    else
+                        R.color.primary
                 )
             )
         }
     }
-
 }
 
 

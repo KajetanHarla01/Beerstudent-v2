@@ -12,8 +12,8 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.khmb.beerstudent.firebase.FirebaseHandler
-import com.example.firebaseforum.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.khmb.beerstudent.databinding.ActivityMainBinding
 
 
 @OptIn(NavigationUiSaveStateControl::class)

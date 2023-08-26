@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.firebaseforum'
+    namespace 'com.khmb.beerstudent'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.firebaseforum"
+        applicationId "com.khmb.beerstudent"
         minSdk 26
         targetSdk 33
         versionCode 1

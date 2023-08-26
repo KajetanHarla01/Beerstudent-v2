@@ -9,36 +9,31 @@ import android.view.animation.LayoutAnimationController
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.beerstudent.R
-import com.example.beerstudent.data.Room
-import com.example.beerstudent.databinding.FragmentHomeBinding
-import com.example.beerstudent.firebase.FirebaseHandler
-import com.example.beerstudent.helpers.RVItemClickListener
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ktx.getValue
+import com.khmb.beerstudent.R
+import com.khmb.beerstudent.data.Post
+import com.khmb.beerstudent.databinding.FragmentHomeBinding
+import com.khmb.beerstudent.firebase.FirebaseHandler
+import com.khmb.beerstudent.helpers.RVItemClickListener
 
 
 class HomeFragment : Fragment(), ChildEventListener {
 
     private var _binding: FragmentHomeBinding? = null
 
-    // This property is only valid between onCreateView and onDestroyView.
-    // Get the binding object from the nullable _binding property. It will throw an exception
-    // if accessed outside the lifecycle between onCreateView and onDestroyView.
     private val binding get() = _binding!!
     private lateinit var listAdapter: HomeRecyclerViewAdapter
-    private val rooms: ArrayList<Room> = ArrayList()
-   // private val invalidRoomNames: ArrayList<String> = ArrayList()
+    private val posts: ArrayList<Post> = ArrayList()
 
     private val listItemCLickListener: RVItemClickListener = object : RVItemClickListener {
         override fun onItemClick(position: Int) {
-            // Gets the room associated with the clicked item
-            val room = rooms[position]
-            room.roomName?.let {
-                val navigateToRoomFragmentAction = HomeFragmentDirections.actionNavigationHomeToRoomFragment(it)
-                findNavController().navigate(navigateToRoomFragmentAction)
+            val post = posts[position]
+            post.postName?.let {
+                val navigateToPostFragmentAction = HomeFragmentDirections.actionNavigationHomeToRoomFragment(it)
+                findNavController().navigate(navigateToPostFragmentAction)
             }
         }
     }
@@ -48,27 +43,21 @@ class HomeFragment : Fragment(), ChildEventListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the view using the generated binding class and set the _binding property.
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
-    // Sets up the recycler view for the forum list
     private fun setupRecyclerView() {
-        // Creates the adapter with the item click listener
         listAdapter = HomeRecyclerViewAdapter(listItemCLickListener)
         with(binding.homeList) {
-            // Sets the layout manager
             layoutManager = LinearLayoutManager(requireContext())
-            // Sets the adapter for the recycler view
             adapter = listAdapter
         }
     }
-    // This method is called when the view is destroyed.
     override fun onDestroyView() {
         super.onDestroyView()
-        rooms.clear()
+        posts.clear()
       //  invalidRoomNames.clear()
-        FirebaseHandler.RealtimeDatabase.stopListeningToRoomsRef(this)
+        FirebaseHandler.RealtimeDatabase.stopListeningToPostsRef(this)
         _binding = null
     }
 
@@ -77,69 +66,53 @@ class HomeFragment : Fragment(), ChildEventListener {
         binding.root.postDelayed({
             //isFirstGet = true
             setupRecyclerView()
-            FirebaseHandler.RealtimeDatabase.getRooms().addOnSuccessListener {
+            FirebaseHandler.RealtimeDatabase.getPosts().addOnSuccessListener {
                 for (child in it.children){
-                    val roomFromDB = child.getValue<Room>()
-                    roomFromDB?.let{
-                        addRoom(roomFromDB)
+                    val postFromDB = child.getValue<Post>()
+                    postFromDB?.let{
+                        addPost(postFromDB)
                     }
                 }
-                showList(rooms)
-                FirebaseHandler.RealtimeDatabase.listenToRoomsReference(this@HomeFragment)
+                showList(posts)
+                FirebaseHandler.RealtimeDatabase.listenToPostsReference(this@HomeFragment)
             }
 
         }, 100)
     }
-    /*Adds a new room to the list of rooms and returns its index in the list.*/
-    private fun addRoom(room: Room, isFirst: Boolean = false): Int {
-        if (room.ownerId == FirebaseHandler.Authentication.getUserUid()) {
-            // Initialize the index variable.
+    private fun addPost(post: Post, isFirst: Boolean = false): Int {
+        if (post.ownerId == FirebaseHandler.Authentication.getUserUid()) {
             var idx = 0
-            // If the new room is not the first room in the list, find the appropriate index for it based
-            // on its timestamp.
-            // The newest items (with higher timestamp) are at the front of the list
             if (!isFirst) {
-                for ((i, existingRoom) in rooms.withIndex()) {
-                    if (room.lastMessageTimestamp!! >= existingRoom.lastMessageTimestamp!!) {
+                for ((i, existingRoom) in posts.withIndex()) {
+                    if (post.lastCommentTimestamp!! >= existingRoom.lastCommentTimestamp!!) {
                         idx = i
                         break
                     } else
                         idx = i + 1
                 }
             }
-            // Add the new room to the list of rooms at the determined index.
-            rooms.add(idx, room)
-            // Return the index of the added room.
+            posts.add(idx, post)
             return idx
         }
         else{
-            return rooms.size - 1
+            return posts.size - 1
         }
     }
-    private fun showList(rooms: List<Room>, position: Int = -1) {
-        // Make the forumList invisible
+    private fun showList(posts: List<Post>, position: Int = -1) {
         binding.homeList.visibility = View.INVISIBLE
-        // Schedule a delayed task to make the forumList visible
         binding.root.postDelayed({
-            // Make the forumList visible
             binding.homeList.visibility = View.VISIBLE
-            // Load an animation for the forumList
             val animation: LayoutAnimationController =
                 AnimationUtils.loadLayoutAnimation(
                     requireContext(),
                     R.anim.layout_animation_fall_down
                 )
-            // Set the animation as the layout animation for the forumList
             binding.homeList.layoutAnimation = animation
-            // Schedule the layout animation for the forumList
             binding.homeList.scheduleLayoutAnimation()
-            // Submit the list of rooms to the listAdapter
-            listAdapter.submitList(rooms)
-            // If position is not -1, notify the adapter to update the list
+            listAdapter.submitList(posts)
             if (position != -1) {
                 listAdapter. notifyDataSetChanged()
             }
-            // Scroll the forumList to the top
             binding.homeList.smoothScrollToPosition(0)
         }, 50)
     }
@@ -149,22 +122,15 @@ class HomeFragment : Fragment(), ChildEventListener {
     }
 
     override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-        // Check if the child node has a non-null value
         if (snapshot.value != null) {
-            // Retrieve the changed room from the snapshot
-            val changedRoom = snapshot.getValue<Room>()
-            changedRoom?.let {
-                // Find the position of the changed room in the list of invalid room names
-                val roomPos = rooms.indexOf(changedRoom)
-                // Remove the changed room's name from the list of invalid room names
-              //  invalidRoomNames.removeAt(roomPos)
-                // Remove the changed room from the list of rooms at its previous position
-                rooms.removeAt(roomPos)
-                // Add the changed room at the top of the list of rooms
-                addRoom(changedRoom, true)
-                val newRoomPos = rooms.indexOf(changedRoom)
-                // Display the updated list of rooms with an animation that falls down into view
-                showList(rooms, newRoomPos)
+            val changedPost = snapshot.getValue<Post>()
+            changedPost?.let {
+                val postPos = posts.indexOf(changedPost)
+                // invalidRoomNames.removeAt(roomPos)
+                posts.removeAt(postPos)
+                addPost(changedPost, true)
+                val newPostPos = posts.indexOf(changedPost)
+                showList(posts, newPostPos)
             }
         }
     }
