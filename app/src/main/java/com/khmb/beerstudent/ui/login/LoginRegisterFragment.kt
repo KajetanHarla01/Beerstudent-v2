@@ -24,6 +24,7 @@ class LoginRegisterFragment : Fragment() {
     private val binding get() = _binding!!
     private var passwordConfirmValid: Boolean = false
     private var passwordValid: Boolean = false
+    private var nicknameValid: Boolean = false
     private var usernameValid: Boolean = false
     private var isLogin = true
 
@@ -62,6 +63,7 @@ class LoginRegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         isLogin = true
         binding.loginPasswordConfirm.visibility = View.GONE
+        binding.nick.visibility = View.GONE
         binding.loginRegisterButton.isEnabled = false
         setupButtons()
         setupEditTexts()
@@ -71,13 +73,14 @@ class LoginRegisterFragment : Fragment() {
         binding.loginUsername.editText?.addTextChangedListener(usernameTextWatcher)
         binding.loginPassword.editText?.addTextChangedListener(passwordTextWatcher)
         binding.loginPasswordConfirm.editText?.addTextChangedListener(passwordConfirmTextWatcher)
+        binding.nick.editText?.addTextChangedListener(nicknameTextWatcher)
     }
 
     private fun validate(): Boolean {
         return if (isLogin)
             passwordValid && usernameValid
         else
-            passwordValid && usernameValid && passwordConfirmValid
+            passwordValid && usernameValid && passwordConfirmValid && nicknameValid
     }
     private fun checkUserName(username: String) {
         Log.i("checkUserName", username)
@@ -87,6 +90,16 @@ class LoginRegisterFragment : Fragment() {
         } else {
             binding.loginUsername.error = ""
             usernameValid = true
+        }
+    }
+    private fun checkNickName(nickname: String) {
+        Log.i("checkNickName", nickname)
+        if (!isNicknameValid(nickname)) {
+            binding.nick.error = getString(R.string.invalid_nickname)
+            nicknameValid = false
+        } else {
+            binding.nick.error = ""
+            nicknameValid = true
         }
     }
     private fun isUserNameValid(username: String): Boolean {
@@ -109,6 +122,9 @@ class LoginRegisterFragment : Fragment() {
     }
     private fun isPasswordValid(password: String): Boolean {
         return password.length >= 6
+    }
+    private fun isNicknameValid(nickname: String): Boolean{
+        return nickname.length >= 4
     }
     private fun checkRegisterPassword(passwordConfirm: String, password: String) {
         Log.i("checkRegisterPassword", "$passwordConfirm $password")
@@ -168,13 +184,29 @@ class LoginRegisterFragment : Fragment() {
             }
         }
     })
+    private val nicknameTextWatcher: MyTextWatcher = MyTextWatcher(object : TimerTaskListener {
+        override fun timerRun() {
+            binding.nick.post {
+                val nickname = binding.nick.editText?.text.toString()
+                if (nickname.isNotEmpty()) {
+                    checkNickName(nickname)
+                    binding.loginRegisterButton.isEnabled = validate()
+                } else{
+                    nicknameValid = false
+                    binding.loginRegisterButton.isEnabled = false
+                }
+            }
+        }
+    })
     private fun cancelTimers() {
         usernameTextWatcher.cancelTimer()
         passwordTextWatcher.cancelTimer()
         passwordConfirmTextWatcher.cancelTimer()
+        nicknameTextWatcher.cancelTimer()
         binding.loginUsername.editText?.removeTextChangedListener(usernameTextWatcher)
         binding.loginPassword.editText?.removeTextChangedListener(passwordTextWatcher)
         binding.loginPasswordConfirm.editText?.removeTextChangedListener(passwordConfirmTextWatcher)
+        binding.nick.editText?.removeTextChangedListener(nicknameTextWatcher)
     }
     private fun setupButtons() {
         binding.loginRegisterToggle.setOnClickListener {
@@ -188,7 +220,10 @@ class LoginRegisterFragment : Fragment() {
                 val password = binding.loginPassword.editText?.text.toString()
                 if (isLogin)
                     login(email, password)
-                else register(email, password)
+                else {
+                    val nickname = binding.nick.editText?.text.toString()
+                    register(email, password, nickname)
+                }
             }
         }
     }
@@ -198,10 +233,12 @@ class LoginRegisterFragment : Fragment() {
             binding.loginRegisterButton.setText(R.string.login_str)
             binding.loginRegisterToggle.setText(R.string.register_str)
             binding.loginPasswordConfirm.visibility = View.GONE
+            binding.nick.visibility = View.GONE
         } else {
             binding.loginRegisterButton.setText(R.string.register_str)
             binding.loginRegisterToggle.setText(R.string.login_str)
             binding.loginPasswordConfirm.visibility = View.VISIBLE
+            binding.nick.visibility = View.VISIBLE
         }
         binding.loginRegisterButton.isEnabled = validate()
     }
@@ -221,11 +258,12 @@ class LoginRegisterFragment : Fragment() {
             }
         }
     }
-    private fun register(email: String, password: String){
+    private fun register(email: String, password: String, nickname: String){
         FirebaseHandler.Authentication.register(email, password).apply {
             addOnSuccessListener {
                 Log.d("Register", "createUserWithEmail:success")
                 FirebaseHandler.RealtimeDatabase.addUser(User(email))
+                FirebaseHandler.RealtimeDatabase.setUserNickname(nickname)
                 findNavController().navigate(R.id.action_navigation_login_to_navigation_home)
             }
             addOnFailureListener {

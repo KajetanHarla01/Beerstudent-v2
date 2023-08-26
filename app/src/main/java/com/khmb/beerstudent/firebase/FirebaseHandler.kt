@@ -3,6 +3,7 @@ package com.khmb.beerstudent.firebase
 import com.khmb.beerstudent.data.Post
 import com.khmb.beerstudent.data.User
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
@@ -10,6 +11,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.values
 import com.google.firebase.ktx.Firebase
 import com.khmb.beerstudent.data.Comment
 
@@ -36,14 +38,24 @@ object FirebaseHandler {
                 userReference.setValue(user)
             }
         }
-        fun getUserNickname(email: String): String? {
+        fun getUserNickname(): Task<DataSnapshot>? {
             val userUid = Authentication.getUserUid()
-            var nick = ""
+            if (userUid != null) {
+                val userReference = getUsersReference().child(userUid).child(userNicknamePath)
+                return userReference.get()
+            } else {
+                val completionSource = TaskCompletionSource<DataSnapshot>()
+                completionSource.setException(Exception("User not logged in"))
+                return completionSource.task
+            }
+        }
+
+        fun setUserNickname(newNick: String){
+            val userUid = Authentication.getUserUid()
             userUid?.let {
                 val userReference = getUsersReference().child(userUid).child(userNicknamePath)
-                nick = userReference.get().toString()
+                userReference.setValue(newNick)
             }
-            return nick
         }
         private fun getCommentsReference(): DatabaseReference{
             return firebaseDatabase.reference.child(postsPath)

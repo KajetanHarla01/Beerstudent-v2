@@ -26,10 +26,12 @@ class AddPostDialog : DialogFragment() {
         binding.dialogPositiveButton.setOnClickListener {
             // Get the text entered into the room name and password fields
             val postName = binding.roomName.editText?.text?.toString()?.trim()?.lowercase()
+            val postText = binding.description.editText?.text.toString()
+            val image = binding.filepath.editText?.text.toString()
             // Check that the room name is not empty
             if (postName?.isNotEmpty() == true) {
                     binding.roomName.error = ""
-                    mListener?.onPositiveClick(postName)
+                    mListener?.onPositiveClick(postName, postText, image)
                     dismiss()
             }else{
                 binding.roomName.error = getString(R.string.missing_input)
@@ -53,7 +55,7 @@ class AddPostDialog : DialogFragment() {
 
 
     interface DialogListener {
-        fun onPositiveClick(postName: String)
+        fun onPositiveClick(postName: String, postText: String, imageUrl: String)
     }
 }
 

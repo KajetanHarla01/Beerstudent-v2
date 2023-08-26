@@ -65,16 +65,21 @@ class CommentFragment : Fragment(), ValueEventListener {
         binding.postSendButton.setOnClickListener {
             commentTextWatcher.cancelTimer()
             val comment = binding.message.editText?.text.toString()
-            FirebaseHandler.RealtimeDatabase.addComment(
-                postName, Comment(
-                    FirebaseHandler.Authentication.getUserEmail()
-                        ?.let { it1 -> FirebaseHandler.RealtimeDatabase.getUserNickname(it1) },
-                    comment,
-                    System.currentTimeMillis()
+            val task = FirebaseHandler.RealtimeDatabase.getUserNickname()
+            task?.addOnSuccessListener { dataSnapshot ->
+                val value = dataSnapshot.getValue(String::class.java)
+                val nickName = value.toString()
+                FirebaseHandler.RealtimeDatabase.addComment(
+                    postName, Comment(
+                        nickName,
+                        comment,
+                        System.currentTimeMillis(),
+                        ""
+                    )
                 )
-            )
-            binding.message.editText?.text?.clear()
-            KeyboardHelper.hideSoftwareKeyboard(requireContext(), binding.root.windowToken)
+                binding.message.editText?.text?.clear()
+                KeyboardHelper.hideSoftwareKeyboard(requireContext(), binding.root.windowToken)
+            }
         }
     }
     private fun setupEditText(){
