@@ -15,4 +15,7 @@
 
     <color name="primary_variant_light">#ffecb3</color>
     <color name="grey">#C7C7C7</color>
+
+    <color name="positive">#94D197</color>
+    <color name="negative">#D8A29E</color>
 </resources>
