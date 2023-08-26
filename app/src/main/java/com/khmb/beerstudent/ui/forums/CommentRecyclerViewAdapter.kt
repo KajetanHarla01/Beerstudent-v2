@@ -43,7 +43,7 @@ class CommentRecyclerViewAdapter
         private val commentText: TextView = binding.post
         private val commentAuthor: TextView = binding.forumPostAuthor
         private val commentDate: TextView = binding.date
-        private val decoration: View = binding.decoration
+        private val decoration: View = binding.decoration1
 
         override fun toString(): String {
             return super.toString() + " '" + (commentText.text) + "'"
