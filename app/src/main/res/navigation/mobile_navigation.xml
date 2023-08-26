@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.firebaseforum.ui.home.HomeFragment"
+        android:name="com.khmb.beerstudent.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/navigation_forums"
-        android:name="com.example.firebaseforum.ui.forums.ForumsFragment"
+        android:name="com.khmb.beerstudent.ui.forums.ForumsFragment"
         android:label="@string/title_forums"
         tools:layout="@layout/fragment_forums" >
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_login"
-        android:name="com.example.firebaseforum.ui.login.LoginRegisterFragment"
+        android:name="com.khmb.beerstudent.ui.login.LoginRegisterFragment"
         android:label="Sign In"
         tools:layout="@layout/fragment_login">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/roomFragment"
-        android:name="com.example.firebaseforum.ui.forums.RoomFragment"
+        android:name="com.khmb.beerstudent.ui.forums.RoomFragment"
         android:label="RoomFragment"
         tools:layout="@layout/fragment_room">
         <argument
