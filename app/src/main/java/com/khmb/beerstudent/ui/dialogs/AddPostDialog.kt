@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.khmb.beerstudent.R
-import com.khmb.beerstudent.databinding.DialogAddRoomBinding
+import com.khmb.beerstudent.databinding.DialogAddPostBinding
 
 class AddPostDialog : DialogFragment() {
 
-    private lateinit var binding: DialogAddRoomBinding
+    private lateinit var binding: DialogAddPostBinding
     private var mListener: DialogListener? = null
     fun setDialogListener(listener: DialogListener) {
         mListener = listener
@@ -49,7 +49,7 @@ class AddPostDialog : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = DialogAddRoomBinding.inflate(layoutInflater)
+        binding = DialogAddPostBinding.inflate(layoutInflater)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return binding.root
     }

@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.khmb.beerstudent.R
 import com.khmb.beerstudent.data.Comment
-import com.khmb.beerstudent.databinding.FragmentRoomBinding
+import com.khmb.beerstudent.databinding.FragmentPostBinding
 import com.khmb.beerstudent.firebase.FirebaseHandler
 import com.khmb.beerstudent.helpers.KeyboardHelper
 import com.khmb.beerstudent.helpers.MyTextWatcher
@@ -24,8 +24,8 @@ import com.khmb.beerstudent.helpers.myCapitalize
 
 class CommentFragment : Fragment(), ValueEventListener {
 
-    private var _binding: FragmentRoomBinding? = null
-    private val args: RoomFragmentArgs by navArgs()
+    private var _binding: FragmentPostBinding? = null
+    private val args: CommentFragmentArgs by navArgs()
 
     private val binding get() = _binding!!
 
@@ -34,7 +34,7 @@ class CommentFragment : Fragment(), ValueEventListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRoomBinding.inflate(inflater, container, false)
+        _binding = FragmentPostBinding.inflate(inflater, container, false)
         return binding.root
     }
 

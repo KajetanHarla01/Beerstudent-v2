@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="2"
-        tools:listitem="@layout/forums_screen_item" />
+        tools:listitem="@layout/posts_screen_item" />
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/add_forum_fab"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"

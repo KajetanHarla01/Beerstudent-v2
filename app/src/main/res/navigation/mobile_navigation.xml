@@ -12,17 +12,17 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_roomFragment"
-            app:destination="@id/roomFragment" />
+            app:destination="@id/postFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_forums"
+        android:id="@+id/navigation_posts"
         android:name="com.khmb.beerstudent.ui.forums.PostsFragment"
         android:label="@string/title_forums"
-        tools:layout="@layout/fragment_forums" >
+        tools:layout="@layout/fragment_posts" >
         <action
             android:id="@+id/action_navigation_forums_to_roomFragment"
-            app:destination="@id/roomFragment" />
+            app:destination="@id/postFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_login"
@@ -36,10 +36,10 @@
             app:exitAnim="@anim/exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/roomFragment"
+        android:id="@+id/postFragment"
         android:name="com.khmb.beerstudent.ui.forums.CommentFragment"
-        android:label="RoomFragment"
-        tools:layout="@layout/fragment_room">
+        android:label="PostFragment"
+        tools:layout="@layout/fragment_post">
         <argument
             android:name="roomName"
             app:argType="string" />

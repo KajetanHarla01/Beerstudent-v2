@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ktx.getValue
 import com.khmb.beerstudent.R
 import com.khmb.beerstudent.data.Post
-import com.khmb.beerstudent.databinding.FragmentForumsBinding
+import com.khmb.beerstudent.databinding.FragmentPostsBinding
 import com.khmb.beerstudent.firebase.FirebaseHandler
 import com.khmb.beerstudent.helpers.RVItemClickListener
 import com.khmb.beerstudent.ui.dialogs.AddPostDialog
@@ -23,7 +23,8 @@ import com.khmb.beerstudent.ui.dialogs.AddPostDialog
 
 class PostsFragment : Fragment(), ChildEventListener {
     // View binding for the fragment
-    private var _binding: FragmentForumsBinding? = null
+
+    private var _binding: FragmentPostsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -37,7 +38,7 @@ class PostsFragment : Fragment(), ChildEventListener {
             val post = posts[position]
             post.postName?.let {
                 val navigateToRoomFragmentAction =
-                    ForumsFragmentDirections.actionNavigationForumsToRoomFragment(it)
+                    ForumsDirections.actionNavigationForumsToRoomFragment(it)
                 findNavController().navigate(navigateToRoomFragmentAction)
             }
         }
@@ -75,7 +76,7 @@ class PostsFragment : Fragment(), ChildEventListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentForumsBinding.inflate(inflater, container, false)
+        _binding = FragmentPostsBinding.inflate(inflater, container, false)
         return binding.root
     }
 

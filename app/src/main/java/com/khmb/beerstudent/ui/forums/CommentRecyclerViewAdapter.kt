@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.khmb.beerstudent.R
 import com.khmb.beerstudent.data.Comment
-import com.khmb.beerstudent.databinding.RoomPostBinding
+import com.khmb.beerstudent.databinding.PostCommentBinding
 import com.khmb.beerstudent.firebase.FirebaseHandler
 import com.khmb.beerstudent.helpers.toDateString
 
@@ -26,7 +26,7 @@ class CommentRecyclerViewAdapter
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            RoomPostBinding.inflate(
+            PostCommentBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -38,7 +38,7 @@ class CommentRecyclerViewAdapter
         holder.bind(item)
     }
 
-    inner class ViewHolder(binding: RoomPostBinding) :
+    inner class ViewHolder(binding: PostCommentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val commentText: TextView = binding.post
         private val commentAuthor: TextView = binding.forumPostAuthor

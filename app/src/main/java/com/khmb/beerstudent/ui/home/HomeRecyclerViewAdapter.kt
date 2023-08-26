@@ -50,7 +50,7 @@ class HomeRecyclerViewAdapter(
 
     inner class ViewHolder(binding: HomeScreenItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val itemLabel: TextView = binding.homeItemLabel
+        private val itemLabel: TextView = binding.forumItemLabel
         private val itemDate: TextView = binding.date
         private val itemComment: TextView = binding.post
         private val decoration: View = binding.decoration
