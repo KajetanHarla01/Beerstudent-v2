@@ -27,13 +27,13 @@
         android:hint="@string/give_an_answer"
         android:textColorHint="@color/primary_variant"
         android:visibility="visible"
-        app:boxBackgroundColor="@color/primary_variant_light"
+        app:boxBackgroundColor="@color/grey"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/primary_variant"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="2dp"
+        app:boxCornerRadiusBottomEnd="2dp"
+        app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="2dp"
-        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopStart="10dp"
         app:endIconMode="clear_text"
         app:endIconTint="@color/secondary"
         app:hintAnimationEnabled="true"
@@ -50,9 +50,8 @@
             android:minHeight="60dp"
             android:nestedScrollingEnabled="true"
             android:scrollbars="vertical"
-            android:textAlignment="viewStart"
-
-            android:textSize="13sp"
+            android:textAlignment="center"
+            android:textSize="16sp"
            />
     </com.google.android.material.textfield.TextInputLayout>
 

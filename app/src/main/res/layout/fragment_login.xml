@@ -38,6 +38,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:startIconDrawable="@drawable/ic_person"
         app:startIconTint="@color/primary"
+        app:boxCornerRadiusBottomEnd="30dp"
+        app:boxCornerRadiusTopEnd="30dp"
+        app:boxCornerRadiusBottomStart="30dp"
+        app:boxCornerRadiusTopStart="30dp"
         tools:visibility="visible">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -72,6 +76,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:startIconDrawable="@drawable/ic_lock"
         app:startIconTint="@color/primary"
+        app:boxCornerRadiusBottomEnd="30dp"
+        app:boxCornerRadiusTopEnd="30dp"
+        app:boxCornerRadiusBottomStart="30dp"
+        app:boxCornerRadiusTopStart="30dp"
         tools:visibility="visible">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -107,6 +115,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:startIconDrawable="@drawable/ic_lock"
         app:startIconTint="@color/primary"
+        app:boxCornerRadiusBottomEnd="30dp"
+        app:boxCornerRadiusTopEnd="30dp"
+        app:boxCornerRadiusBottomStart="30dp"
+        app:boxCornerRadiusTopStart="30dp"
         tools:visibility="visible">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -125,6 +137,7 @@
         android:layout_marginTop="8dp"
         android:enabled="false"
         android:text="@string/login_str"
+        app:cornerRadius="20dp"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/login_password"
         app:layout_constraintStart_toStartOf="@+id/login_password"

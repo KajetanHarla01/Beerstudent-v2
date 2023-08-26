@@ -10,5 +10,8 @@
         android:id="@+id/navigation_forums"
         android:icon="@drawable/ic_forum"
         android:title="@string/title_forums" />
-
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout"/>
 </menu>
