@@ -49,7 +49,8 @@ class PostsFragment : Fragment(), ChildEventListener {
         override fun onPositiveClick(postName: String) {
             val newPost = Post(
                 postName,
-                FirebaseHandler.Authentication.getUserUid(),
+                FirebaseHandler.Authentication.getUserEmail()
+                    ?.let { it1 -> FirebaseHandler.RealtimeDatabase.getUserNickname(it1) },
                 FirebaseHandler.Authentication.getUserEmail(),
                 "",
                 "",

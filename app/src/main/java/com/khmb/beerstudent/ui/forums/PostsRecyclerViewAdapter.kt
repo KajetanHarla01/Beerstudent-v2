@@ -64,10 +64,10 @@ class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener) :
         }
         fun bind(post: Post) {
             postLabel.text = post.postName?.myCapitalize()
-            postOwner.text = "by ${post.ownerEmail}"
+            postOwner.text = "by ${post.ownerNickname}"
             postDate.text = post.lastCommentTimestamp?.toDateString()
             commentAuthor.text = post.lastCommentAuthor
-            val isOwner = post.ownerEmail == FirebaseHandler.Authentication.getUserEmail()
+            val isOwner = post.ownerNickname == FirebaseHandler.Authentication.getUserEmail()
             decoration.setBackgroundColor(
                 decoration.context.getColor(
                     if (isOwner)

@@ -22,6 +22,7 @@ object FirebaseHandler {
         private const val postLastCommentPath = "lastComment"
         private const val postLastCommentAuthorPath = "lastCommentAuthor"
         private const val postLastCommentTimestampPath = "lastCommentTimestamp"
+        private const val userNicknamePath = "nickname"
         private val firebaseDatabase by lazy {
             Firebase.database("https://fir-forum-32d99-default-rtdb.europe-west1.firebasedatabase.app/")
         }
@@ -34,6 +35,15 @@ object FirebaseHandler {
                 val userReference = getUsersReference().child(userUid)
                 userReference.setValue(user)
             }
+        }
+        fun getUserNickname(email: String): String? {
+            val userUid = Authentication.getUserUid()
+            var nick = ""
+            userUid?.let {
+                val userReference = getUsersReference().child(userUid).child(userNicknamePath)
+                nick = userReference.get().toString()
+            }
+            return nick
         }
         private fun getCommentsReference(): DatabaseReference{
             return firebaseDatabase.reference.child(postsPath)

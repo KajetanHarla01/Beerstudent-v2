@@ -67,7 +67,8 @@ class CommentFragment : Fragment(), ValueEventListener {
             val comment = binding.message.editText?.text.toString()
             FirebaseHandler.RealtimeDatabase.addComment(
                 postName, Comment(
-                    FirebaseHandler.Authentication.getUserEmail(),
+                    FirebaseHandler.Authentication.getUserEmail()
+                        ?.let { it1 -> FirebaseHandler.RealtimeDatabase.getUserNickname(it1) },
                     comment,
                     System.currentTimeMillis()
                 )

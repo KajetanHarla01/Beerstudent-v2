@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class Post(
     val postName: String? = null,
     val ownerId: String? = null,
-    val ownerEmail: String? = null,
+    val ownerNickname: String? = null,
     val image: String? = null,
     var lastComment: String? = null,
     var lastCommentAuthor: String? = null,
