@@ -25,4 +25,6 @@
     <string name="give_an_answer">Give an answer</string>
     <string name="restrict_access_to_post_with_password">Restrict access to post with password</string>
     <string name="invalid_nickname">Invalid nick</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/decoration"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:background="@color/primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/forumLabel" />
+
+        <TextView
+            android:id="@+id/forumLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Main Post" />
+
+        <TextView
+            android:id="@+id/postDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="8dp"
+            android:text="Bla Bla\nBla Bla\nBla Bla\nBla Bla"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/forumLabel"
+            />
+        <ImageView
+            android:id="@+id/postIMG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="600dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/footer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postDescription"
+            tools:srcCompat="@tools:sample/backgrounds/scenic"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:padding="4dp"
+            android:id="@+id/footer"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/postIMG">
+
+            <TextView
+                android:id="@+id/forumOwner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="16sp"
+                android:textStyle="bold|italic"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:layout_marginHorizontal="4dp"
+                android:backgroundTint="@color/grey"
+                android:background="@drawable/roundcorner"
+                tools:text="gajoe@mainForum" />
+            <ImageButton
+                android:id="@+id/plusButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:backgroundTint="@color/negative"
+                android:background="@drawable/roundcorner"
+                app:srcCompat="@android:drawable/arrow_down_float" />
+
+            <ImageButton
+                android:id="@+id/minusButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@color/positive"
+                android:background="@drawable/roundcorner"
+                app:srcCompat="@android:drawable/arrow_up_float" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
