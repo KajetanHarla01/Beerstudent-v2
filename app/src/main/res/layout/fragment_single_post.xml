@@ -32,12 +32,28 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:textSize="24sp"
+            android:textSize="16sp"
             android:textStyle="bold|italic"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/forumOwner"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Main Post" />
+            tools:text="Main Forum" />
+
+        <TextView
+            android:id="@+id/forumOwner"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/forumLabel"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="by joe" />
 
         <TextView
             android:id="@+id/postDescription"
@@ -54,13 +70,12 @@
             android:id="@+id/postIMG"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxHeight="600dp"
+            android:maxHeight="200dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/postDescription"
-            tools:srcCompat="@tools:sample/backgrounds/scenic"/>
+            app:layout_constraintTop_toBottomOf="@+id/postDescription"/>
 
 
         <LinearLayout
@@ -73,18 +88,6 @@
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/postIMG">
 
-            <TextView
-                android:id="@+id/forumOwner"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="16sp"
-                android:textStyle="bold|italic"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:layout_marginHorizontal="4dp"
-                android:backgroundTint="@color/grey"
-                android:background="@drawable/roundcorner"
-                tools:text="gajoe@mainForum" />
             <ImageButton
                 android:id="@+id/plusButton"
                 android:layout_width="30dp"
