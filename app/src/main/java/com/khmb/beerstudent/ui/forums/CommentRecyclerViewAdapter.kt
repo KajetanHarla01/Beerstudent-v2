@@ -57,7 +57,7 @@ class CommentRecyclerViewAdapter
             commentAuthor.text = comment.author
             commentDate.text = comment.timestamp?.toDateString()
             Log.d("Post", "bind: ${comment.imageURL}")
-            if (comment.imageURL != null) {
+            if (comment.imageURL != null &&  comment.imageURL != "") {
                 Picasso.get().load(comment.imageURL).into(commentIMG);
             }
             val isOwner = comment.author == FirebaseHandler.Authentication.getUserEmail()

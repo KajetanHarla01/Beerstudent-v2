@@ -53,7 +53,7 @@ class CommentFragment : Fragment(), ValueEventListener {
             requireActivity().runOnUiThread {
                 val message = binding.message.editText?.text.toString()
                 val image = binding.answerUrl.editText?.text.toString()
-                val notEmpty = message.isNotEmpty()
+                val notEmpty = message.isNotEmpty() || image.isNotEmpty()
                 binding.postSendButton.isEnabled = notEmpty
                 val tintColor =
                     binding.root.context.getColor(if (notEmpty) R.color.secondary else R.color.grey)
@@ -80,6 +80,7 @@ class CommentFragment : Fragment(), ValueEventListener {
                     )
                 )
                 binding.message.editText?.text?.clear()
+                binding.answerUrl.editText?.text?.clear()
                 KeyboardHelper.hideSoftwareKeyboard(requireContext(), binding.root.windowToken)
             }
         }

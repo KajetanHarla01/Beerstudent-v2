@@ -71,7 +71,7 @@ class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener) :
             postOwner.text = "by ${post.ownerNickname}"
             postDate.text = post.lastCommentTimestamp?.toDateString()
             Log.d("Post", "bind: ${post.imageURL}")
-            if (post.imageURL != null) {
+            if (post.imageURL != null && post.imageURL != "") {
                 Picasso.get().load(post.imageURL).into(postIMG);
             }
             commentAuthor.text = post.lastCommentAuthor
