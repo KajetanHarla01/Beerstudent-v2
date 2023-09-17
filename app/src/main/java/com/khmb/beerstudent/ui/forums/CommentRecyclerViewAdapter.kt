@@ -1,8 +1,10 @@
 package com.khmb.beerstudent.ui.forums
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,6 +14,7 @@ import com.khmb.beerstudent.data.Comment
 import com.khmb.beerstudent.databinding.PostCommentBinding
 import com.khmb.beerstudent.firebase.FirebaseHandler
 import com.khmb.beerstudent.helpers.toDateString
+import com.squareup.picasso.Picasso
 
 
 class CommentRecyclerViewAdapter
@@ -41,6 +44,7 @@ class CommentRecyclerViewAdapter
     inner class ViewHolder(binding: PostCommentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val commentText: TextView = binding.post
+        private val commentIMG: ImageView = binding.image
         private val commentAuthor: TextView = binding.forumPostAuthor
         private val commentDate: TextView = binding.date
         private val decoration: View = binding.decoration1
@@ -52,6 +56,10 @@ class CommentRecyclerViewAdapter
             commentText.text = comment.message
             commentAuthor.text = comment.author
             commentDate.text = comment.timestamp?.toDateString()
+            Log.d("Post", "bind: ${comment.imageURL}")
+            if (comment.imageURL != null) {
+                Picasso.get().load(comment.imageURL).into(commentIMG);
+            }
             val isOwner = comment.author == FirebaseHandler.Authentication.getUserEmail()
             decoration.setBackgroundColor(
                 decoration.context.getColor(

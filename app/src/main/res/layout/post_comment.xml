@@ -47,9 +47,10 @@
             tools:text="My two line\nmessage" />
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+            android:id="@+id/image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxHeight="400dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post"/>
@@ -57,11 +58,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:padding="4dp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/imageView"
+            app:layout_constraintTop_toBottomOf="@id/image"
             >
 
         <TextView

@@ -52,6 +52,7 @@ class CommentFragment : Fragment(), ValueEventListener {
         override fun timerRun() {
             requireActivity().runOnUiThread {
                 val message = binding.message.editText?.text.toString()
+                val image = binding.answerUrl.editText?.text.toString()
                 val notEmpty = message.isNotEmpty()
                 binding.postSendButton.isEnabled = notEmpty
                 val tintColor =
@@ -65,6 +66,7 @@ class CommentFragment : Fragment(), ValueEventListener {
         binding.postSendButton.setOnClickListener {
             commentTextWatcher.cancelTimer()
             val comment = binding.message.editText?.text.toString()
+            val imageURL = binding.answerUrl.editText?.text.toString()
             val task = FirebaseHandler.RealtimeDatabase.getUserNickname()
             task?.addOnSuccessListener { dataSnapshot ->
                 val value = dataSnapshot.getValue(String::class.java)
@@ -74,7 +76,7 @@ class CommentFragment : Fragment(), ValueEventListener {
                         nickName,
                         comment,
                         System.currentTimeMillis(),
-                        ""
+                        imageURL
                     )
                 )
                 binding.message.editText?.text?.clear()

@@ -1,8 +1,10 @@
 package com.khmb.beerstudent.ui.forums
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,6 +16,7 @@ import com.khmb.beerstudent.firebase.FirebaseHandler
 import com.khmb.beerstudent.helpers.RVItemClickListener
 import com.khmb.beerstudent.helpers.myCapitalize
 import com.khmb.beerstudent.helpers.toDateString
+import com.squareup.picasso.Picasso
 
 class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener) :
     ListAdapter<Post, PostsRecyclerViewAdapter.ViewHolder>(Comparator) {
@@ -49,6 +52,7 @@ class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener) :
         private val postLabel: TextView = binding.forumLabel
         private val postOwner: TextView = binding.forumOwner
         private val postDate: TextView = binding.forumDate
+        private val postIMG: ImageView = binding.forumIMG
         private val commentAuthor: TextView = binding.postAuthor
         private val decoration: View = binding.decoration
         private val rootView = binding.root
@@ -66,6 +70,10 @@ class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener) :
             postLabel.text = post.postName?.myCapitalize()
             postOwner.text = "by ${post.ownerNickname}"
             postDate.text = post.lastCommentTimestamp?.toDateString()
+            Log.d("Post", "bind: ${post.imageURL}")
+            if (post.imageURL != null) {
+                Picasso.get().load(post.imageURL).into(postIMG);
+            }
             commentAuthor.text = post.lastCommentAuthor
             val isOwner = post.ownerNickname == FirebaseHandler.Authentication.getUserEmail()
             decoration.setBackgroundColor(
