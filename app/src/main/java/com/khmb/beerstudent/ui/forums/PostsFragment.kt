@@ -54,7 +54,7 @@ class PostsFragment : Fragment(), ChildEventListener {
 
                 val newPost = Post(
                     postName,
-                    FirebaseHandler.Authentication.getUserEmail(),
+                    FirebaseHandler.Authentication.getUserUid(),
                     nickName,
                     postText,
                     imageUrl,

@@ -3,6 +3,7 @@ package com.khmb.beerstudent.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,6 +14,7 @@ import com.khmb.beerstudent.databinding.HomeScreenItemBinding
 import com.khmb.beerstudent.helpers.RVItemClickListener
 import com.khmb.beerstudent.helpers.myCapitalize
 import com.khmb.beerstudent.helpers.toDateString
+import com.squareup.picasso.Picasso
 
 
 class HomeRecyclerViewAdapter(
@@ -50,10 +52,14 @@ class HomeRecyclerViewAdapter(
 
     inner class ViewHolder(binding: HomeScreenItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val itemLabel: TextView = binding.forumItemLabel
-        private val itemDate: TextView = binding.date
-        private val itemComment: TextView = binding.post
+        private val itemLabel: TextView = binding.forumLabel
+        private val itemDate: TextView = binding.forumDate
+        private val itemCommentAuthor: TextView = binding.postAuthor
+        private val postIMG: ImageView = binding.forumIMG
+        private val postText: TextView = binding.postText
         private val decoration: View = binding.decoration
+        private val decoration2: View = binding.decoration2
+        private val lastMessageLabel: TextView = binding.lastMessageLabel
         private val rootView = binding.root
 
 
@@ -68,11 +74,26 @@ class HomeRecyclerViewAdapter(
         fun bind(post: Post) {
             itemLabel.text = post.postName?.myCapitalize()
             itemDate.text = post.lastCommentTimestamp?.toDateString()
-            itemComment.text = post.lastComment
-
+            itemCommentAuthor.text = post.lastCommentAuthor
+            postText.text = post.postText
+            if (post.imageURL != null && post.imageURL != "") {
+                Picasso.get().load(post.imageURL).into(postIMG);
+            }
+            if (post.lastCommentAuthor == ""){
+                lastMessageLabel.visibility = View.GONE
+            }
+            else
+            {
+                lastMessageLabel.visibility = View.VISIBLE
+            }
             // Sets the background color of the decoration view based on whether the user is the owner of the Room
             decoration.setBackgroundColor(
                 decoration.context.getColor(
+                    R.color.secondary
+                )
+            )
+            decoration2.setBackgroundColor(
+                decoration2.context.getColor(
                     R.color.secondary
                 )
             )

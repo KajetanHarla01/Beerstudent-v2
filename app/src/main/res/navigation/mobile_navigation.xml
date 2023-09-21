@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_postFragment"
             app:destination="@id/postFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_login"
+            app:destination="@id/navigation_login" />
     </fragment>
 
     <fragment
@@ -23,6 +26,9 @@
         <action
             android:id="@+id/action_navigation_posts_to_postFragment"
             app:destination="@id/postFragment" />
+        <action
+            android:id="@+id/action_navigation_posts_to_navigation_login"
+            app:destination="@id/navigation_login" />
     </fragment>
     <fragment
         android:id="@+id/navigation_login"
@@ -43,5 +49,8 @@
         <argument
             android:name="roomName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_postFragment_to_navigation_login"
+            app:destination="@id/navigation_login" />
     </fragment>
 </navigation>

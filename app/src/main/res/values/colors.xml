@@ -18,4 +18,6 @@
 
     <color name="positive">#94D197</color>
     <color name="negative">#D8A29E</color>
+    <color name="green">#0FA000</color>
+    <color name="red">#FF1100</color>
 </resources>

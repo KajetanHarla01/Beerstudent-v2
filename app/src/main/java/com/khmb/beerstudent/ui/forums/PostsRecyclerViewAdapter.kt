@@ -53,8 +53,11 @@ class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener) :
         private val postOwner: TextView = binding.forumOwner
         private val postDate: TextView = binding.forumDate
         private val postIMG: ImageView = binding.forumIMG
+        private val postText: TextView = binding.postText
+        private val lastMessageLabel: TextView = binding.lastMessageLabel
         private val commentAuthor: TextView = binding.postAuthor
         private val decoration: View = binding.decoration
+        private val decoration2: View = binding.decoration2
         private val rootView = binding.root
 
 
@@ -70,14 +73,30 @@ class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener) :
             postLabel.text = post.postName?.myCapitalize()
             postOwner.text = "by ${post.ownerNickname}"
             postDate.text = post.lastCommentTimestamp?.toDateString()
+            postText.text = post.postText
             Log.d("Post", "bind: ${post.imageURL}")
             if (post.imageURL != null && post.imageURL != "") {
                 Picasso.get().load(post.imageURL).into(postIMG);
             }
             commentAuthor.text = post.lastCommentAuthor
-            val isOwner = post.ownerNickname == FirebaseHandler.Authentication.getUserEmail()
+            if (post.lastCommentAuthor == ""){
+                lastMessageLabel.visibility = View.GONE
+            }
+            else
+            {
+                lastMessageLabel.visibility = View.VISIBLE
+            }
+            val isOwner = post.ownerId == FirebaseHandler.Authentication.getUserUid()
             decoration.setBackgroundColor(
                 decoration.context.getColor(
+                    if (isOwner)
+                        R.color.secondary
+                    else
+                        R.color.primary
+                )
+            )
+            decoration2.setBackgroundColor(
+                decoration2.context.getColor(
                     if (isOwner)
                         R.color.secondary
                     else

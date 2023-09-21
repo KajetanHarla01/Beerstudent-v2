@@ -119,7 +119,7 @@ object FirebaseHandler {
         fun isLoggedIn(): Boolean {
             return firebaseAuth.currentUser != null
         }
-        fun logout() {
+        public fun logout() {
             firebaseAuth.signOut()
         }
     }

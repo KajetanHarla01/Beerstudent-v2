@@ -1,12 +1,14 @@
 package com.khmb.beerstudent
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -69,14 +71,20 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
         val dispatcher: OnBackPressedDispatcher = onBackPressedDispatcher
         dispatcher.addCallback(this, overrideCallback)
+
+        val menuItem: MenuItem = navView.menu.getItem(2)
+        menuItem.setOnMenuItemClickListener {
+            FirebaseHandler.Authentication.logout()
+            navController.navigate(R.id.navigation_login)
+            true
+        }
     }
 
     // Inflate the options menu for the action bar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.appbar_menu, menu)
+        menuInflater.inflate(R.menu.bottom_nav_menu, menu)
         return true
     }
-
     // Prepare the options menu for display
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         // Get the current navigation controller and destination
@@ -87,18 +95,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         menu?.findItem(R.id.logout)?.isVisible = navDestination.id != R.id.navigation_login
         return super.onPrepareOptionsMenu(menu)
     }
-
-    // Handle selection of an item from the options menu
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.logout -> {
-                FirebaseHandler.Authentication.logout()
-                findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_login)
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onDestinationChanged(
         controller: NavController,
         destination: NavDestination,
