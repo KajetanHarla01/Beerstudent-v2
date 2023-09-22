@@ -149,14 +149,16 @@
 
         <TextView
             android:id="@+id/forumOwner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="116dp"
+            android:layout_width="111dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="168dp"
             android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
             android:text="TextView"
             app:layout_constraintBottom_toTopOf="@+id/decoration"
             app:layout_constraintStart_toEndOf="@+id/forumLabel"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

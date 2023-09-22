@@ -23,8 +23,12 @@
             android:hint="@string/name"
             android:textColorHint="@color/primary_variant"
             android:visibility="visible"
-            app:boxBackgroundMode="outline"
             app:boxBackgroundColor="@color/primary_variant_light"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp"
             app:boxStrokeColor="@color/primary_variant"
             app:boxStrokeWidth="1dp"
             app:endIconMode="clear_text"
@@ -34,20 +38,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible"
-            app:boxCornerRadiusBottomEnd="20dp"
-            app:boxCornerRadiusTopEnd="20dp"
-            app:boxCornerRadiusBottomStart="20dp"
-            app:boxCornerRadiusTopStart="20dp"
-            >
+            tools:visibility="visible">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:inputType="text"
+                android:textAlignment="center"
                 android:textSize="14sp"
-                tools:text="My new room"/>
+                tools:text="My new room" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -143,15 +142,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            app:cornerRadius="20dp"
             android:backgroundTint="@color/grey"
             android:text="@string/cancel_str"
+            app:cornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/dialog_positive_button"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="@id/room_name"
-             />
+            app:layout_constraintStart_toStartOf="@id/room_name" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

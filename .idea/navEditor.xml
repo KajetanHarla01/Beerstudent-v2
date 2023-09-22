@@ -19,7 +19,12 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_navigation_home_to_roomFragment">
+                            <entry key="action_navigation_home_to_navigation_login">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_navigation_home_to_postFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -61,7 +66,12 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_navigation_forums_to_roomFragment">
+                            <entry key="action_navigation_posts_to_navigation_login">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_navigation_posts_to_postFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -78,6 +88,27 @@
                           <Point>
                             <option name="x" value="256" />
                             <option name="y" value="12" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_postFragment_to_navigation_login">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="singlePost2">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="485" />
+                            <option name="y" value="85" />
                           </Point>
                         </option>
                       </LayoutPositions>

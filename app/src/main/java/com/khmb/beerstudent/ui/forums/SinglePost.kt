@@ -1,33 +1,26 @@
 package com.khmb.beerstudent.ui.forums
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.khmb.beerstudent.R
+import com.khmb.beerstudent.data.Post
+import com.khmb.beerstudent.databinding.FragmentSinglePostBinding
+import com.khmb.beerstudent.firebase.FirebaseHandler
+import com.squareup.picasso.Picasso
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SinglePost.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SinglePost : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
+    private lateinit var binding: FragmentSinglePostBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -35,26 +28,72 @@ class SinglePost : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_single_post, container, false)
-    }
+        binding = FragmentSinglePostBinding.inflate(layoutInflater)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SinglePost.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SinglePost().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        // Pobierz argumenty za pomocą navArgs()
+        val receivedBundle = arguments
+        if (receivedBundle != null) {
+            val postName = receivedBundle.getString("postName")
+            val result = FirebaseHandler.RealtimeDatabase.getPost(postName!!)
+            result?.addOnSuccessListener { dataSnapshot ->
+                val value = dataSnapshot.getValue(Post::class.java)
+                //Log.d("postName", value.toString())
+                binding.minusButton.setOnClickListener {
+                    FirebaseHandler.RealtimeDatabase.votePostMinus(value?.postName!!)
+                    val postReference = FirebaseHandler.RealtimeDatabase.getPostReference(postName)
+                    postReference.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val updatedPost = dataSnapshot.getValue(Post::class.java)
+                            Log.d("postName", updatedPost.toString())
+                            if (updatedPost != null) {
+                                binding.minusButton.text = (updatedPost.minusVotes ?: 0).toString()
+                                binding.plusButton.text = (updatedPost.plusVotes ?: 0).toString()
+                            }
+                        }
+                        override fun onCancelled(databaseError: DatabaseError) {
+
+                        }
+                    })
+                }
+                binding.plusButton.setOnClickListener {
+                    FirebaseHandler.RealtimeDatabase.votePostPlus(value?.postName!!)
+                    val postReference = FirebaseHandler.RealtimeDatabase.getPostReference(postName)
+                    postReference.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val updatedPost = dataSnapshot.getValue(Post::class.java)
+                            if (updatedPost != null) {
+                                binding.minusButton.text = (updatedPost.minusVotes ?: 0).toString()
+                                binding.plusButton.text = (updatedPost.plusVotes ?: 0).toString()
+                            }
+                        }
+                        override fun onCancelled(databaseError: DatabaseError) {
+
+                        }
+                    })
+                }
+                binding.forumLabel.text = value?.postName
+                binding.forumOwner.setText("by "  + value?.ownerNickname)
+                binding.postDescription.text = value?.postText
+                binding.minusButton.text = (value?.minusVotes ?: 0).toString()
+                binding.plusButton.text = (value?.plusVotes ?: 0).toString()
+                if (value?.ownerId == FirebaseHandler.Authentication.getUserUid()){
+                    binding.decoration.setBackgroundColor(binding.decoration.context.getColor(R.color.secondary))
+                }
+                else{
+                    binding.decoration.setBackgroundColor(binding.decoration.context.getColor(R.color.primary))
+                }
+                if (value?.ownerId == FirebaseHandler.Authentication.getUserUid()){
+                    binding.decoration2.setBackgroundColor(binding.decoration2.context.getColor(R.color.secondary))
+                }
+                else{
+                    binding.decoration2.setBackgroundColor(binding.decoration2.context.getColor(R.color.primary))
+                }
+                if (value?.imageURL != null && value?.imageURL!="") {
+                    Picasso.get().load(value?.imageURL).into(binding.postIMG)
                 }
             }
+
+        }
+        return binding.root
     }
 }

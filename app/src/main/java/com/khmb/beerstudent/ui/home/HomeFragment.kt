@@ -18,6 +18,7 @@ import com.khmb.beerstudent.R
 import com.khmb.beerstudent.data.Post
 import com.khmb.beerstudent.databinding.FragmentHomeBinding
 import com.khmb.beerstudent.firebase.FirebaseHandler
+import com.khmb.beerstudent.helpers.PostItemClickListener
 import com.khmb.beerstudent.helpers.RVItemClickListener
 
 
@@ -127,7 +128,7 @@ class HomeFragment : Fragment(), ChildEventListener {
             val changedPost = snapshot.getValue<Post>()
             changedPost?.let {
                 val postPos = posts.indexOf(changedPost)
-                // invalidRoomNames.removeAt(roomPos)
+                //invalidRoomNames.removeAt(roomPos)
                 posts.removeAt(postPos)
                 addPost(changedPost, true)
                 val newPostPos = posts.indexOf(changedPost)

@@ -2,11 +2,13 @@ package com.khmb.beerstudent.ui.forums
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
@@ -19,6 +21,7 @@ import com.khmb.beerstudent.databinding.FragmentPostBinding
 import com.khmb.beerstudent.firebase.FirebaseHandler
 import com.khmb.beerstudent.helpers.KeyboardHelper
 import com.khmb.beerstudent.helpers.MyTextWatcher
+import com.khmb.beerstudent.helpers.PostItemClickListener
 import com.khmb.beerstudent.helpers.TimerTaskListener
 import com.khmb.beerstudent.helpers.myCapitalize
 
@@ -28,6 +31,18 @@ class CommentFragment : Fragment(), ValueEventListener {
     private val args: CommentFragmentArgs by navArgs()
 
     private val binding get() = _binding!!
+
+    private val commentVoted: PostItemClickListener = object  : PostItemClickListener {
+        override fun onPlusClick(position: Int) {
+            val comment = comments[position]
+            FirebaseHandler.RealtimeDatabase.voteCommentPlus(args.postName, comment.timestamp.toString())
+        }
+
+        override fun onMinusClick(position: Int) {
+            val comment = comments[position]
+            FirebaseHandler.RealtimeDatabase.voteCommentMinus(args.postName, comment.timestamp.toString())
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,7 +104,7 @@ class CommentFragment : Fragment(), ValueEventListener {
         binding.message.editText?.addTextChangedListener(commentTextWatcher)
     }
     private fun setupRecyclerView(){
-        listAdapter = CommentRecyclerViewAdapter()
+        listAdapter = CommentRecyclerViewAdapter(commentVoted)
         with(binding.messageList){
             layoutManager = LinearLayoutManager(requireContext())
             adapter = listAdapter
@@ -107,16 +122,25 @@ class CommentFragment : Fragment(), ValueEventListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         isFirstGet = true
-        postName = args.roomName
+        postName = args.postName
         (requireActivity() as AppCompatActivity).supportActionBar?.title = postName.myCapitalize()
         FirebaseHandler.RealtimeDatabase.listenToCommentsFromPost(postName, this)
         setupButtons()
         setupEditText()
         setupRecyclerView()
+
+        val args = Bundle()
+        args.putString("postName", postName) // Tutaj podaj właściwą wartość
+        val singlePost = SinglePost()
+        singlePost.arguments = args
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.container, singlePost)
+        transaction?.commit()
     }
 
     override fun onDataChange(snapshot: DataSnapshot) {
-        if(snapshot.value != null) {
+        if (snapshot.value != null) {
+            comments.clear()
             if (isFirstGet) {
                 for (child in snapshot.children) {
                     val comment = child.getValue<Comment>()
@@ -124,8 +148,7 @@ class CommentFragment : Fragment(), ValueEventListener {
                         comments.add(comment)
                     }
                 }
-            }
-            else {
+            } else {
                 val lastComment = snapshot.children.lastOrNull()?.getValue<Comment>()
                 lastComment?.let {
                     comments.add(lastComment)

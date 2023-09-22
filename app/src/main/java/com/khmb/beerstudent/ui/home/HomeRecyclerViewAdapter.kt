@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.khmb.beerstudent.R
 import com.khmb.beerstudent.data.Post
 import com.khmb.beerstudent.databinding.HomeScreenItemBinding
+import com.khmb.beerstudent.helpers.PostItemClickListener
 import com.khmb.beerstudent.helpers.RVItemClickListener
 import com.khmb.beerstudent.helpers.myCapitalize
 import com.khmb.beerstudent.helpers.toDateString
@@ -57,10 +58,14 @@ class HomeRecyclerViewAdapter(
         private val itemCommentAuthor: TextView = binding.postAuthor
         private val postIMG: ImageView = binding.forumIMG
         private val postText: TextView = binding.postText
+        private val minusVote: TextView = binding.minusButton
+        private val plusVote: TextView = binding.plusButton
         private val decoration: View = binding.decoration
         private val decoration2: View = binding.decoration2
         private val lastMessageLabel: TextView = binding.lastMessageLabel
         private val rootView = binding.root
+        private val postPlusButton = binding.plusButton
+        private val postMinusButton = binding.minusButton
 
 
         override fun toString(): String {
@@ -76,6 +81,8 @@ class HomeRecyclerViewAdapter(
             itemDate.text = post.lastCommentTimestamp?.toDateString()
             itemCommentAuthor.text = post.lastCommentAuthor
             postText.text = post.postText
+            minusVote.text = (post.minusVotes ?: 0).toString()
+            plusVote.text = (post.plusVotes ?: 0).toString()
             if (post.imageURL != null && post.imageURL != "") {
                 Picasso.get().load(post.imageURL).into(postIMG);
             }

@@ -1,11 +1,13 @@
 package com.khmb.beerstudent.ui.forums
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,11 +19,12 @@ import com.khmb.beerstudent.R
 import com.khmb.beerstudent.data.Post
 import com.khmb.beerstudent.databinding.FragmentPostsBinding
 import com.khmb.beerstudent.firebase.FirebaseHandler
+import com.khmb.beerstudent.helpers.PostItemClickListener
 import com.khmb.beerstudent.helpers.RVItemClickListener
 import com.khmb.beerstudent.ui.dialogs.AddPostDialog
 
 
-class PostsFragment : Fragment(), ChildEventListener {
+class PostsFragment : Fragment(), ChildEventListener{
     // View binding for the fragment
 
     private var _binding: FragmentPostsBinding? = null
@@ -42,6 +45,19 @@ class PostsFragment : Fragment(), ChildEventListener {
                 findNavController().navigate(navigateToPostFragmentAction)
             }
         }
+    }
+    private val postVoted: PostItemClickListener = object  : PostItemClickListener{
+        override fun onPlusClick(position: Int) {
+            val post = posts[position]
+            Log.d("plusVote", "true")
+            FirebaseHandler.RealtimeDatabase.votePostPlus(post.postName!!)
+        }
+
+        override fun onMinusClick(position: Int) {
+            val post = posts[position]
+            FirebaseHandler.RealtimeDatabase.votePostMinus(post.postName!!)
+        }
+
     }
 
     private val invalidPostNames: ArrayList<String> = ArrayList()
@@ -115,7 +131,7 @@ class PostsFragment : Fragment(), ChildEventListener {
         _binding = null
     }
     private fun setupRecyclerView() {
-        listAdapter = PostsRecyclerViewAdapter(listItemCLickListener)
+        listAdapter = PostsRecyclerViewAdapter(listItemCLickListener, postVoted)
         with(binding.forumList) {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = listAdapter
@@ -124,12 +140,13 @@ class PostsFragment : Fragment(), ChildEventListener {
     private fun addPost(post: Post, isFirst: Boolean = false): Int {
         var idx = 0
         if (!isFirst) {
-            for ((i, existingRoom) in posts.withIndex()) {
-                if (post.lastCommentTimestamp!! >= existingRoom.lastCommentTimestamp!!) {
+            for ((i, existingPost) in posts.withIndex()) {
+                if (post.lastCommentTimestamp!! > existingPost.lastCommentTimestamp!!) {
                     idx = i
                     break
-                } else
+                } else {
                     idx = i + 1
+                }
             }
         }
         invalidPostNames.add(idx, post.postName!!)
@@ -171,9 +188,11 @@ class PostsFragment : Fragment(), ChildEventListener {
             changedPost?.let {
                 val postPos = invalidPostNames.indexOf(changedPost.postName)
                 invalidPostNames.removeAt(postPos)
+                Log.d("roomPos", postPos.toString())
                 posts.removeAt(postPos)
-                addPost(changedPost, true)
+                addPost(changedPost, false)
                 val newRoomPos = posts.indexOf(changedPost)
+                //posts.sortByDescending { it.lastCommentTimestamp }
                 showList(posts, newRoomPos)
             }
         }

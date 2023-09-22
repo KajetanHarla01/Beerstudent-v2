@@ -1,5 +1,6 @@
 package com.khmb.beerstudent.firebase
 
+import android.util.Log
 import com.khmb.beerstudent.data.Post
 import com.khmb.beerstudent.data.User
 import com.google.android.gms.tasks.Task
@@ -11,6 +12,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.database.ktx.values
 import com.google.firebase.ktx.Firebase
 import com.khmb.beerstudent.data.Comment
@@ -49,7 +51,6 @@ object FirebaseHandler {
                 return completionSource.task
             }
         }
-
         fun setUserNickname(newNick: String){
             val userUid = Authentication.getUserUid()
             userUid?.let {
@@ -71,6 +72,10 @@ object FirebaseHandler {
         }
         fun getPosts(): Task<DataSnapshot>{
             return getCommentsReference().get()
+        }
+        fun getPost(name: String): Task<DataSnapshot>{
+            val ref = getPostReference(name)
+            return ref.get()
         }
         fun listenToPostsReference(listener: ChildEventListener){
             getCommentsReference().addChildEventListener(listener)
@@ -99,6 +104,128 @@ object FirebaseHandler {
         }
         fun stopListeningToPostComments(postName: String, listener: ValueEventListener) {
             getCommentsReference(postName).removeEventListener(listener)
+        }
+        fun getPostReference(postName: String) : DatabaseReference{
+            return firebaseDatabase.reference.child(postsPath).child(postName)
+        }
+        fun voteCommentMinus(postName: String, comment: String){
+            val userUid = Authentication.getUserUid()
+            if (userUid != null) {
+                val commentReference = getCommentsReference(postName).child(comment)
+                commentReference.child("minusVotes").get().addOnSuccessListener { minusVotesSnapshot ->
+                    val currentMinusVotes = minusVotesSnapshot.getValue(Int::class.java) ?: 0
+                    commentReference.child("plusVotes").get().addOnSuccessListener { plusVotesSnapshot ->
+                        val currentPlusVotes = plusVotesSnapshot.getValue(Int::class.java) ?: 0
+                        val userVoteReference = commentReference.child("votes").child(userUid)
+                        userVoteReference.get().addOnSuccessListener { userVoteSnapshot ->
+                            val userVote = userVoteSnapshot.getValue(String::class.java)
+
+                            if (userVote == null) {
+                                userVoteReference.setValue("minus")
+                                commentReference.child("minusVotes").setValue(currentMinusVotes + 1)
+                            } else if (userVote == "plus") {
+                                userVoteReference.setValue("minus")
+                                commentReference.child("plusVotes").setValue(currentPlusVotes - 1)
+                                commentReference.child("minusVotes").setValue(currentMinusVotes + 1)
+                            }
+                            else{
+                                userVoteReference.setValue(null)
+                                commentReference.child("minusVotes").setValue(currentMinusVotes - 1)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        fun voteCommentPlus(postName: String, comment: String){
+            val userUid = Authentication.getUserUid()
+            if (userUid != null) {
+                val commentReference = getCommentsReference(postName).child(comment)
+                commentReference.child("plusVotes").get().addOnSuccessListener { plusVotesSnapshot ->
+                    val currentPlusVotes = plusVotesSnapshot.getValue(Int::class.java) ?: 0
+                    commentReference.child("minusVotes").get().addOnSuccessListener { minusVotesSnapshot ->
+                        val currentMinusVotes = minusVotesSnapshot.getValue(Int::class.java) ?: 0
+                        val userVoteReference = commentReference.child("votes").child(userUid)
+                        userVoteReference.get().addOnSuccessListener { userVoteSnapshot ->
+                            val userVote = userVoteSnapshot.getValue(String::class.java)
+
+                            if (userVote == null) {
+                                userVoteReference.setValue("plus")
+                                commentReference.child("plusVotes").setValue(currentPlusVotes + 1)
+                            } else if (userVote == "minus") {
+                                userVoteReference.setValue("plus")
+                                commentReference.child("minusVotes").setValue(currentMinusVotes - 1)
+                                commentReference.child("plusVotes").setValue(currentPlusVotes + 1)
+                            }
+                            else{
+                                userVoteReference.setValue(null)
+                                commentReference.child("plusVotes").setValue(currentPlusVotes - 1)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        fun votePostMinus(postName: String){
+            val userUid = Authentication.getUserUid()
+            if (userUid != null) {
+                val postReference = getPostReference(postName)
+
+                postReference.child("minusVotes").get().addOnSuccessListener { minusVotesSnapshot ->
+                    val currentMinusVotes = minusVotesSnapshot.getValue(Int::class.java) ?: 0
+                    postReference.child("plusVotes").get().addOnSuccessListener { plusVotesSnapshot ->
+                        val currentPlusVotes = plusVotesSnapshot.getValue(Int::class.java) ?: 0
+                        val userVoteReference = postReference.child("votes").child(userUid)
+                        userVoteReference.get().addOnSuccessListener { userVoteSnapshot ->
+                            val userVote = userVoteSnapshot.getValue(String::class.java)
+
+                            if (userVote == null) {
+                                userVoteReference.setValue("minus")
+                                postReference.child("minusVotes").setValue(currentMinusVotes + 1)
+                            } else if (userVote == "plus") {
+                                userVoteReference.setValue("minus")
+                                postReference.child("plusVotes").setValue(currentPlusVotes - 1)
+                                postReference.child("minusVotes").setValue(currentMinusVotes + 1)
+                            }
+                            else{
+                                userVoteReference.setValue(null)
+                                postReference.child("minusVotes").setValue(currentMinusVotes - 1)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        fun votePostPlus(postName: String){
+            val userUid = Authentication.getUserUid()
+
+            if (userUid != null) {
+                val postReference = getPostReference(postName)
+
+                postReference.child("plusVotes").get().addOnSuccessListener { plusVotesSnapshot ->
+                    val currentPlusVotes = plusVotesSnapshot.getValue(Int::class.java) ?: 0
+                    postReference.child("minusVotes").get().addOnSuccessListener { minusVotesSnapshot ->
+                        val currentMinusVotes = minusVotesSnapshot.getValue(Int::class.java) ?: 0
+                        val userVoteReference = postReference.child("votes").child(userUid)
+                        userVoteReference.get().addOnSuccessListener { userVoteSnapshot ->
+                            val userVote = userVoteSnapshot.getValue(String::class.java)
+
+                            if (userVote == null) {
+                                userVoteReference.setValue("plus")
+                                postReference.child("plusVotes").setValue(currentPlusVotes + 1)
+                            } else if (userVote == "minus") {
+                                userVoteReference.setValue("plus")
+                                postReference.child("minusVotes").setValue(currentMinusVotes - 1)
+                                postReference.child("plusVotes").setValue(currentPlusVotes + 1)
+                            }
+                            else{
+                                userVoteReference.setValue(null)
+                                postReference.child("plusVotes").setValue(currentPlusVotes - 1)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
