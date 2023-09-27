@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.khmb.beerstudent.R
 import com.khmb.beerstudent.data.Comment
+import com.khmb.beerstudent.data.Post
 import com.khmb.beerstudent.databinding.FragmentPostBinding
 import com.khmb.beerstudent.firebase.FirebaseHandler
 import com.khmb.beerstudent.helpers.KeyboardHelper
@@ -32,6 +33,7 @@ class CommentFragment : Fragment(), ValueEventListener {
 
     private val binding get() = _binding!!
 
+    /*
     private val commentVoted: PostItemClickListener = object  : PostItemClickListener {
         override fun onPlusClick(position: Int) {
             val comment = comments[position]
@@ -43,6 +45,7 @@ class CommentFragment : Fragment(), ValueEventListener {
             FirebaseHandler.RealtimeDatabase.voteCommentMinus(args.postName, comment.timestamp.toString())
         }
     }
+     */
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -104,7 +107,7 @@ class CommentFragment : Fragment(), ValueEventListener {
         binding.message.editText?.addTextChangedListener(commentTextWatcher)
     }
     private fun setupRecyclerView(){
-        listAdapter = CommentRecyclerViewAdapter(commentVoted)
+        listAdapter = CommentRecyclerViewAdapter()
         with(binding.messageList){
             layoutManager = LinearLayoutManager(requireContext())
             adapter = listAdapter
@@ -137,10 +140,9 @@ class CommentFragment : Fragment(), ValueEventListener {
         transaction?.replace(R.id.container, singlePost)
         transaction?.commit()
     }
-
     override fun onDataChange(snapshot: DataSnapshot) {
         if (snapshot.value != null) {
-            comments.clear()
+            //comments.clear()
             if (isFirstGet) {
                 for (child in snapshot.children) {
                     val comment = child.getValue<Comment>()
@@ -154,6 +156,7 @@ class CommentFragment : Fragment(), ValueEventListener {
                     comments.add(lastComment)
                 }
             }
+            val a = comments
             showList(comments)
             isFirstGet = false
         }

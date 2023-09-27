@@ -18,7 +18,7 @@ import com.khmb.beerstudent.helpers.toDateString
 import com.squareup.picasso.Picasso
 
 
-class CommentRecyclerViewAdapter (private val itemClickListener: PostItemClickListener)
+class CommentRecyclerViewAdapter
     : ListAdapter<Comment, CommentRecyclerViewAdapter.ViewHolder>(Comparator) {
     object Comparator : DiffUtil.ItemCallback<Comment>() {
         override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {
@@ -40,8 +40,8 @@ class CommentRecyclerViewAdapter (private val itemClickListener: PostItemClickLi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
-        holder.setOnMinusClickListener(itemClickListener)
-        holder.setOnPlusClickListener(itemClickListener)
+        //holder.setOnMinusClickListener(itemClickListener)
+        //holder.setOnPlusClickListener(itemClickListener)
     }
 
     inner class ViewHolder(binding: PostCommentBinding) :
@@ -51,14 +51,16 @@ class CommentRecyclerViewAdapter (private val itemClickListener: PostItemClickLi
         private val commentAuthor: TextView = binding.forumPostAuthor
         private val commentDate: TextView = binding.date
         private val decoration: View = binding.decoration1
-        private val postPlusButton = binding.plusButtonComment
-        private val postMinusButton = binding.minusButtonComment
-        private val minusVote: TextView = binding.minusButtonComment
-        private val plusVote: TextView = binding.plusButtonComment
+        //private val postPlusButton = binding.plusButtonComment
+        //private val postMinusButton = binding.minusButtonComment
+        //
+        //private val minusVote: TextView = binding.minusButtonComment
+        //private val plusVote: TextView = binding.plusButtonComment
 
         override fun toString(): String {
             return super.toString() + " '" + (commentText.text) + "'"
         }
+        /*
         fun setOnPlusClickListener(listener: PostItemClickListener) {
             postPlusButton.setOnClickListener {
                 listener.onPlusClick(adapterPosition)
@@ -69,12 +71,13 @@ class CommentRecyclerViewAdapter (private val itemClickListener: PostItemClickLi
                 listener.onMinusClick(adapterPosition)
             }
         }
+         */
         fun bind(comment: Comment) {
             commentText.text = comment.message
             commentAuthor.text = comment.author
             commentDate.text = comment.timestamp?.toDateString()
-            minusVote.text = (comment.minusVotes ?: 0).toString()
-            plusVote.text = (comment.plusVotes ?: 0).toString()
+            //minusVote.text = (comment.minusVotes ?: 0).toString()
+            //plusVote.text = (comment.plusVotes ?: 0).toString()
             Log.d("Post", "bind: ${comment.imageURL}")
             if (comment.imageURL != null &&  comment.imageURL != "") {
                 Picasso.get().load(comment.imageURL).into(commentIMG);
