@@ -72,7 +72,9 @@ class SinglePost : Fragment() {
                     })
                 }
                 binding.forumLabel.text = value?.postName
-                binding.forumOwner.setText("by "  + value?.ownerNickname)
+                FirebaseHandler.RealtimeDatabase.getNick(value?.ownerId).addOnSuccessListener {
+                    binding.forumOwner.setText("by "  + it.value.toString())
+                }
                 binding.postDescription.text = value?.postText
                 binding.minusButton.text = (value?.minusVotes ?: 0).toString()
                 binding.plusButton.text = (value?.plusVotes ?: 0).toString()

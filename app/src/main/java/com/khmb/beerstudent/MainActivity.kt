@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_posts, R.id.logout
+                R.id.navigation_home, R.id.navigation_posts, R.id.navigation_profile, R.id.logout
             )
         )
         // Set up the action bar with the navigation controller and app bar configuration
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         val dispatcher: OnBackPressedDispatcher = onBackPressedDispatcher
         dispatcher.addCallback(this, overrideCallback)
 
-        val menuItem: MenuItem = navView.menu.getItem(2)
+        val menuItem: MenuItem = navView.menu.getItem(3)
         menuItem.setOnMenuItemClickListener {
             FirebaseHandler.Authentication.logout()
             navController.navigate(R.id.navigation_login)
@@ -87,12 +87,14 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
     // Prepare the options menu for display
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val isLoggedIn = FirebaseHandler.Authentication.isLoggedIn()
+
         // Get the current navigation controller and destination
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        val navDestination =
-            navController.currentDestination ?: return super.onPrepareOptionsMenu(menu)
-        // Hide the logout button if the current destination is the login screen
-        menu?.findItem(R.id.logout)?.isVisible = navDestination.id != R.id.navigation_login
+        val navDestination = navController.currentDestination
+
+        // Hide the logout button if the user is not logged in or the current destination is the login screen
+        menu?.findItem(R.id.logout)?.isVisible = isLoggedIn && navDestination?.id != R.id.navigation_login
         return super.onPrepareOptionsMenu(menu)
     }
     override fun onDestinationChanged(

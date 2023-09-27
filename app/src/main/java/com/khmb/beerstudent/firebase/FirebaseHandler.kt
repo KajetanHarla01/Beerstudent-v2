@@ -51,6 +51,16 @@ object FirebaseHandler {
                 return completionSource.task
             }
         }
+        fun getNick(userUid: String?): Task<DataSnapshot> {
+            return if (userUid != null) {
+                val userReference = getUsersReference().child(userUid).child(userNicknamePath)
+                userReference.get()
+            } else {
+                val completionSource = TaskCompletionSource<DataSnapshot>()
+                completionSource.setException(Exception("User not logged in"))
+                completionSource.task
+            }
+        }
         fun setUserNickname(newNick: String){
             val userUid = Authentication.getUserUid()
             userUid?.let {
@@ -245,6 +255,9 @@ object FirebaseHandler {
         }
         fun isLoggedIn(): Boolean {
             return firebaseAuth.currentUser != null
+        }
+        fun resetPassword(email: String): Task<Void>? {
+            return email.let { firebaseAuth.sendPasswordResetEmail(it) }
         }
         public fun logout() {
             firebaseAuth.signOut()

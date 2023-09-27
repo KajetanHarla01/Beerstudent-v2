@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.khmb.beerstudent.R
 import com.khmb.beerstudent.data.Post
 import com.khmb.beerstudent.databinding.HomeScreenItemBinding
+import com.khmb.beerstudent.firebase.FirebaseHandler
 import com.khmb.beerstudent.helpers.PostItemClickListener
 import com.khmb.beerstudent.helpers.RVItemClickListener
 import com.khmb.beerstudent.helpers.myCapitalize
@@ -79,7 +80,9 @@ class HomeRecyclerViewAdapter(
         fun bind(post: Post) {
             itemLabel.text = post.postName?.myCapitalize()
             itemDate.text = post.lastCommentTimestamp?.toDateString()
-            itemCommentAuthor.text = post.lastCommentAuthor
+            FirebaseHandler.RealtimeDatabase.getNick(post.lastCommentAuthor).addOnSuccessListener {
+                itemCommentAuthor.text = it.value.toString()
+            }
             postText.text = post.postText
             minusVote.text = (post.minusVotes ?: 0).toString()
             plusVote.text = (post.plusVotes ?: 0).toString()

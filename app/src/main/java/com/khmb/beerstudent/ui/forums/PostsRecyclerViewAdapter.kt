@@ -88,7 +88,9 @@ class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener, p
         }
         fun bind(post: Post) {
             postLabel.text = post.postName?.myCapitalize()
-            postOwner.text = "by ${post.ownerNickname}"
+            FirebaseHandler.RealtimeDatabase.getNick(post.ownerId).addOnSuccessListener {
+                postOwner.text = "by ${it.value.toString()}"
+            }
             postDate.text = post.lastCommentTimestamp?.toDateString()
             postText.text = post.postText
             minusVote.text = (post.minusVotes ?: 0).toString()
@@ -97,7 +99,9 @@ class PostsRecyclerViewAdapter(private val clickListener: RVItemClickListener, p
             if (post.imageURL != null && post.imageURL != "") {
                 Picasso.get().load(post.imageURL).into(postIMG);
             }
-            commentAuthor.text = post.lastCommentAuthor
+            FirebaseHandler.RealtimeDatabase.getNick(post.lastCommentAuthor).addOnSuccessListener {
+                commentAuthor.text = it.value.toString()
+            }
             if (post.lastCommentAuthor == ""){
                 lastMessageLabel.visibility = View.GONE
             }

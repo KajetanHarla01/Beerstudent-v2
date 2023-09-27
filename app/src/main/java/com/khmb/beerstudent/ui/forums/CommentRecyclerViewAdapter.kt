@@ -74,7 +74,9 @@ class CommentRecyclerViewAdapter
          */
         fun bind(comment: Comment) {
             commentText.text = comment.message
-            commentAuthor.text = comment.author
+            FirebaseHandler.RealtimeDatabase.getNick(comment?.author).addOnSuccessListener {
+                commentAuthor.text = it.value.toString()
+            }
             commentDate.text = comment.timestamp?.toDateString()
             //minusVote.text = (comment.minusVotes ?: 0).toString()
             //plusVote.text = (comment.plusVotes ?: 0).toString()

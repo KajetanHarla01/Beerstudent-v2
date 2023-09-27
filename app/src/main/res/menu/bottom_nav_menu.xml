@@ -11,6 +11,10 @@
         android:icon="@drawable/ic_forum"
         android:title="@string/title_forums" />
     <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_person"
+        android:title="Profile" />
+    <item
         android:id="@+id/logout"
         android:icon="@drawable/ic_logout"
         android:title="Logout" />

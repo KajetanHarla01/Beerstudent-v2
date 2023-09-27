@@ -6,6 +6,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -67,6 +68,21 @@ class LoginRegisterFragment : Fragment() {
         binding.loginRegisterButton.isEnabled = false
         setupButtons()
         setupEditTexts()
+        binding.resetPassword.setOnClickListener {
+            val email = binding.loginUsername.editText?.text.toString()
+
+            if (isUserNameValid(email)) {
+                FirebaseHandler.Authentication.resetPassword(email)
+                    ?.addOnSuccessListener {
+                        Toast.makeText(context, "Password reset successful. Check your mailbox.", Toast.LENGTH_SHORT).show()
+                    }
+                    ?.addOnFailureListener { e ->
+                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(context, "Error: Invalid e-mail", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupEditTexts() {
@@ -233,12 +249,14 @@ class LoginRegisterFragment : Fragment() {
             binding.loginRegisterButton.setText(R.string.login_str)
             binding.loginRegisterToggle.setText(R.string.register_str)
             binding.loginPasswordConfirm.visibility = View.GONE
+            binding.resetPassword.visibility = View.VISIBLE
             binding.nick.visibility = View.GONE
         } else {
             binding.loginRegisterButton.setText(R.string.register_str)
             binding.loginRegisterToggle.setText(R.string.login_str)
             binding.loginPasswordConfirm.visibility = View.VISIBLE
             binding.nick.visibility = View.VISIBLE
+            binding.resetPassword.visibility = View.INVISIBLE
         }
         binding.loginRegisterButton.isEnabled = validate()
     }

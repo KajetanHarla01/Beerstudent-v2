@@ -63,24 +63,17 @@ class PostsFragment : Fragment(), ChildEventListener{
     private val invalidPostNames: ArrayList<String> = ArrayList()
     private val addDialogListener = object : AddPostDialog.DialogListener{
         override fun onPositiveClick(postName: String, postText: String, imageUrl: String?) {
-            val task = FirebaseHandler.RealtimeDatabase.getUserNickname()
-            task?.addOnSuccessListener { dataSnapshot ->
-                val value = dataSnapshot.getValue(String::class.java)
-                val nickName = value.toString()
-
-                val newPost = Post(
-                    postName,
-                    FirebaseHandler.Authentication.getUserUid(),
-                    nickName,
-                    postText,
-                    imageUrl,
-                    "",
-                    "",
-                    System.currentTimeMillis()
-                )
-                FirebaseHandler.RealtimeDatabase.addPost(newPost)
-                FirebaseHandler.RealtimeDatabase.addUserPosts(postName)
-            }
+            val newPost = Post(
+                postName,
+                FirebaseHandler.Authentication.getUserUid(),
+                postText,
+                imageUrl,
+                "",
+                "",
+                System.currentTimeMillis()
+            )
+            FirebaseHandler.RealtimeDatabase.addPost(newPost)
+            FirebaseHandler.RealtimeDatabase.addUserPosts(postName)
         }
     }
     private fun showAddDialog() {
